@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Will you be my Valentine?</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#fff1f3;--bg2:#fbd5dc;--ink:#5a1226;--rose:#c0173f;--rose-d:#8f0f2e;--soft:#f7b8c4;--card:rgba(255,255,255,.55);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#2a0a14;--bg2:#4a0f22;--ink:#ffe3e8;--soft:#7a2038;--card:rgba(255,255,255,.07)}}
+:root[data-theme="dark"]{--bg1:#2a0a14;--bg2:#4a0f22;--ink:#ffe3e8;--soft:#7a2038;--card:rgba(255,255,255,.07)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(circle at 50% 30%,var(--bg1),var(--bg2));color:var(--ink);font-family:"Cormorant Garamond",Georgia,serif;overflow:hidden;position:relative}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity .8s ease,visibility .8s}
+.screen.hide{opacity:0;visibility:hidden;pointer-events:none}
+.rose-big{width:min(150px,36vw);margin-bottom:8px;filter:drop-shadow(0 10px 18px rgba(143,15,46,.35));animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-8px)}}
+h1{font-family:"Great Vibes",cursive;font-weight:400;font-size:clamp(2.6rem,9vw,5rem);margin:0 0 6px;color:var(--rose);line-height:1.1}
+.sub{font-style:italic;font-size:1.25rem;margin:0 0 28px;opacity:.8}
+.btns{display:flex;align-items:center;justify-content:center;gap:18px;min-height:40vh;max-width:100%}
+button{font-family:inherit;font-weight:600;border:0;border-radius:999px;cursor:pointer;transition:all .25s ease;white-space:nowrap}
+#yes{background:linear-gradient(135deg,#e0305a,var(--rose-d));color:#fff;font-size:20px;padding:.7em 1.8em;box-shadow:0 8px 22px rgba(192,23,63,.4)}
+#yes:hover{filter:brightness(1.08)}
+#no{background:var(--card);color:var(--ink);border:1px solid var(--soft);font-size:20px;padding:.6em 1.4em}
+button:focus-visible{outline:3px solid var(--rose);outline-offset:3px}
+.note{min-height:1.6em;font-style:italic;margin-top:6px;opacity:.85}
+/* final screen */
+#love{background:radial-gradient(circle at 50% 40%,var(--bg1),var(--bg2));overflow:hidden}
+.yay{font-weight:600;font-size:clamp(2.6rem,12vw,5rem);letter-spacing:.06em;margin:0 0 4px;color:var(--rose-d);opacity:0;transform:scale(.4)}
+#love.show .yay{animation:pop .9s cubic-bezier(.2,1.6,.4,1) .2s forwards}
+@keyframes pop{to{opacity:1;transform:scale(1)}}
+.bouquet{width:min(280px,62vw);filter:drop-shadow(0 14px 24px rgba(143,15,46,.4));transform:scale(.6);opacity:0;transition:all 1.4s cubic-bezier(.2,.9,.3,1.2) .4s}
+#love.show .bouquet{transform:scale(1);opacity:1}
+.caption{font-family:"Great Vibes",cursive;font-size:clamp(2.8rem,11vw,5.5rem);color:var(--rose);margin:10px 0 0;opacity:0;transition:opacity 1.2s ease 1.4s}
+#love.show .caption{opacity:1}
+.balloon{position:absolute;bottom:-130px;width:48px;height:60px;border-radius:50% 50% 47% 47%;cursor:pointer;z-index:2;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.75) 0 7%,transparent 18%),var(--c);box-shadow:inset -6px -8px 12px rgba(0,0,0,.15)}
+.balloon::before{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-5px;border:5px solid transparent;border-bottom:7px solid var(--c);border-top:0}
+.balloon::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:46px;background:rgba(90,18,38,.45)}
+.spark{position:absolute;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:3}
+@media (prefers-reduced-motion:reduce){.balloon{display:none}}
+.petal{position:absolute;top:-40px;width:16px;height:22px;background:radial-gradient(circle at 30% 30%,#ff7a96,var(--rose));border-radius:80% 0 80% 0;opacity:.85;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r))}}
+@media (prefers-reduced-motion:reduce){.rose-big{animation:none}.petal{display:none}.yay{animation:none!important;opacity:1;transform:none}.bouquet,.caption{transition-duration:.01s;transition-delay:0s}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gA" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7a0826"/><stop offset=".55" stop-color="#c8153f"/><stop offset="1" stop-color="#f4658a"/></linearGradient>
+    <linearGradient id="gB" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#5e0520"/><stop offset=".55" stop-color="#b00f38"/><stop offset="1" stop-color="#e84672"/></linearGradient>
+    <linearGradient id="gC" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#44010f"/><stop offset=".55" stop-color="#8f0a2b"/><stop offset="1" stop-color="#cf2a58"/></linearGradient>
+    <radialGradient id="dew"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".6" stop-color="#fff" stop-opacity=".25"/><stop offset="1" stop-color="#600" stop-opacity=".35"/></radialGradient>
+    <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#58b074"/><stop offset="1" stop-color="#1f5a37"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="0" stdDeviation=".05" flood-color="#2a0210" flood-opacity=".6"/></filter>
+    <g id="rose"></g>
+    <g id="leaf"><path d="M0 0C10-16 38-20 60 0 38 20 10 16 0 0z" fill="url(#lg)" stroke="#184a2c" stroke-width=".8"/><path d="M2 0H56M14 0L26-9M14 0L26 9M28 0L40-8M28 0L40 8" stroke="#9ad9ad" stroke-width="1" opacity=".55" fill="none"/></g>
+  </defs>
+</svg>
+
+<section class="screen" id="ask">
+  <svg class="rose-big" viewBox="-100 -100 200 200" aria-hidden="true"><use href="#rose"/></svg>
+  <h1>Will you be my Valentine?</h1>
+  <p class="sub">I've been wanting to ask you something.</p>
+  <div class="btns">
+    <button id="yes">Yes</button>
+    <button id="no">No</button>
+  </div>
+  <p class="note" id="note" aria-live="polite"></p>
+</section>
+
+<section class="screen hide" id="love">
+  <svg class="bouquet" viewBox="0 0 300 310" aria-label="A bouquet of red roses">
+    <g transform="translate(150 140)">
+      <use href="#leaf" transform="rotate(-165) scale(1.9)"/><use href="#leaf" transform="rotate(-125) scale(1.9)"/>
+      <use href="#leaf" transform="rotate(-55) scale(1.9)"/><use href="#leaf" transform="rotate(-15) scale(1.9)"/>
+    </g>
+    <path d="M104 186L196 186 168 304 132 304z" fill="#f7b8c4" stroke="#e58aa0" stroke-width="1.5" stroke-linejoin="round"/>
+    <use href="#rose" transform="translate(150 94) scale(.58) rotate(20)"/>
+    <use href="#rose" transform="translate(88 148) scale(.5) rotate(80)"/>
+    <use href="#rose" transform="translate(212 148) scale(.5) rotate(140)"/>
+    <g transform="translate(0 -40)">
+      <path d="M150 252C130 232 116 250 128 262 138 268 148 262 150 252 152 262 162 268 172 262 184 250 170 232 150 252z" fill="#c0173f"/>
+      <path d="M146 258L134 288M154 258L166 288" stroke="#c0173f" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="150" cy="255" r="5" fill="#8f0f2e"/>
+    </g>
+  </svg>
+  <h2 class="yay">YAYYYY!</h2>
+  <p class="caption">I love you baby</p>
+</section>
+
+<script>
+ (function(){
+
+  (function buildRose(){
+    var P='M0 0C-.8-.05-1-.65-.55-.92-.3-1.05.3-1.05.55-.92 1-.65.8-.05 0 0z', N=38, o='';
+    for(var i=0;i<N;i++){
+      var t=i/(N-1), a=i*137.508, r=Math.pow(1-t,.85)*40, sz=13+Math.pow(1-t,.9)*47;
+      var g=t<.33?'gA':(t<.68?'gB':'gC');
+      o+='<g filter="url(#sh)" transform="rotate('+a.toFixed(1)+') translate(0 -'+r.toFixed(1)+') scale('+sz.toFixed(1)+')">'+
+        '<path d="'+P+'" fill="url(#'+g+')" stroke="#3a0212" stroke-width=".02" stroke-opacity=".6"/>'+
+        '<path d="M0-.05Q-.1-.5-.25-.85M0-.05Q.1-.5.25-.85" fill="none" stroke="#3a0212" stroke-width=".03" opacity=".18"/>'+
+        '<path d="M-.6-.9Q0-1.07.6-.9" fill="none" stroke="#ffc6d4" stroke-width=".045" stroke-linecap="round" opacity=".5"/></g>';
+    }
+    o+='<circle r="5" fill="#3d010e"/><path d="M-4 0a4 4 0 1 1 4 4" fill="none" stroke="#ff9bb3" stroke-width=".9" opacity=".8"/>'+
+       '<circle cx="-46" cy="-30" r="2.6" fill="url(#dew)"/><circle cx="32" cy="-60" r="2.1" fill="url(#dew)"/><circle cx="54" cy="22" r="2.8" fill="url(#dew)"/><circle cx="-20" cy="58" r="2.2" fill="url(#dew)"/>';
+    document.getElementById('rose').innerHTML=o;
+  })();
+  var yes=document.getElementById('yes'), no=document.getElementById('no');
+  var note=document.getElementById('note');
+  var yesSize=20, noSize=20, clicks=0;
+  var lines=["Are you sure?","Think again…","Please?","Pretty please?","You're breaking my heart","I'll keep asking","Just say yes 🌹"];
+  no.addEventListener('click',function(){
+    clicks++;
+    yesSize=Math.min(yesSize*1.28,150);
+    noSize=Math.max(noSize*0.78,3);
+    yes.style.fontSize=yesSize+'px';
+    no.style.fontSize=noSize+'px';
+    no.style.opacity=Math.max(1-clicks*0.07,.35);
+    note.textContent=lines[Math.min(clicks-1,lines.length-1)];
+    if(noSize<=3.5){no.style.display='none';}
+  });
+  function petals(){
+    var love=document.getElementById('love');
+    for(var i=0;i<40;i++){
+      var p=document.createElement('span');
+      p.className='petal';
+      p.style.left=Math.random()*100+'%';
+      p.style.setProperty('--dx',(Math.random()*160-80)+'px');
+      p.style.setProperty('--r',(Math.random()*720)+'deg');
+      p.style.animationDuration=(5+Math.random()*5)+'s';
+      p.style.animationDelay=(Math.random()*4)+'s';
+      love.appendChild(p);
+    }
+  }
+
+  var cols=['#e8325f','#ff8fa8','#c0173f','#f7b8c4','#ff5c7c','#ffd1da'];
+  function pop(el){
+    var love=document.getElementById('love'), r=el.getBoundingClientRect();
+    var cx=r.left+r.width/2, cy=r.top+r.height/2, c=el.style.getPropertyValue('--c');
+    el.remove();
+    for(var i=0;i<12;i++){
+      var p=document.createElement('span'); p.className='spark';
+      p.style.left=cx-4+'px'; p.style.top=cy-4+'px'; p.style.background=c;
+      love.appendChild(p);
+      var a=i/12*Math.PI*2, d=34+Math.random()*34;
+      var an=p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate('+Math.cos(a)*d+'px,'+Math.sin(a)*d+'px) scale(.2)',opacity:0}],{duration:520,easing:'ease-out'});
+      an.onfinish=(function(n){return function(){n.remove();};})(p);
+    }
+  }
+  function balloons(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var love=document.getElementById('love'), H=window.innerHeight;
+    for(var i=0;i<22;i++){
+      (function(i){
+        setTimeout(function(){
+          var b=document.createElement('div'); b.className='balloon';
+          b.style.setProperty('--c',cols[i%cols.length]);
+          b.style.left=(4+Math.random()*88)+'%';
+          var rise=H*(.4+Math.random()*.5)+130, sway=(Math.random()*60-30);
+          love.appendChild(b);
+          var an=b.animate([{transform:'translate(0,0)'},{transform:'translate('+sway+'px,'+(-rise*.5)+'px)'},{transform:'translate('+(-sway/2)+'px,'+(-rise)+'px)'}],{duration:3200+Math.random()*2400,easing:'ease-in',fill:'forwards'});
+          an.onfinish=function(){if(b.isConnected)pop(b);};
+          b.addEventListener('click',function(){an.cancel();pop(b);});
+        },i*320);
+      })(i);
+    }
+  }
+  yes.addEventListener('click',function(){
+    document.getElementById('ask').classList.add('hide');
+    var love=document.getElementById('love');
+    love.classList.remove('hide');
+    requestAnimationFrame(function(){requestAnimationFrame(function(){love.classList.add('show');});});
+    petals();
+    balloons();
+  });
+})();
+</script>
+</body>
+</html>
